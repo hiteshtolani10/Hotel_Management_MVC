@@ -1,0 +1,217 @@
+﻿@model BookingDetails
+
+@{
+    ViewData["Title"] = "Booking Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row justify-content-center">
+    <div class="col-6 text-center align-items-center justify-content-center">
+        <img src="@Model.HotelCoverImg" width="400" height="200" />
+        <h2>Hotel @Model.HotelName</h2>
+    </div>
+
+</div>
+
+
+<div id="fill_details">  
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="text-center pb-4 pt-3">
+                <h4>Fill in Your Details</h4>
+                <hr />
+                <span>Room Type : @Model.RoomTypeString</span>
+                <span><a href="/Dashboards/SelectRooms/@Model.HotelId">Change?</a></span>
+            </div>
+            
+            <div class="col-4" style="border-style: solid; border-radius: 10px;">
+
+                <form asp-action="BookRoom">
+                    <div class="form-group p-2">
+                        <label asp-for="Name" class="control-label form-label col-sm-4"></label>
+                        <input asp-for="Name" class="form-control form-control-sm" autocomplete="off" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group p-2">
+                        <label asp-for="NoOfRooms" class="control-label form-label col-sm-4"></label>
+                        <input asp-for="NoOfRooms" class="form-control form-control-sm" type="number" min="1"
+                        value="@Model.NoOfRooms" autocomplete="off" id="NoOfRoomsInput" onchange="checkNoOfGuests()" />
+                        <span asp-validation-for="NoOfRooms" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group p-2">
+                        <label asp-for="NoOfGuests" class="control-label form-label col-sm-4"></label>
+                        <input asp-for="NoOfGuests" class="form-control form-control-sm" type="number" min="1"
+                               value="@Model.NoOfGuests" autocomplete="off" id="NoOfGuestsInput" onchange="NoOfGuestsValidation()" />
+                        <span asp-validation-for="NoOfGuests" class="text-danger"></span>
+                        <span class="text-danger" id="noOfGuestsAllower" style="visibility: hidden">(Max No. of Guest Allowed : 3)</span>
+
+                    </div>
+
+                    <div class="form-group p-2">
+                        <label asp-for="CheckInDate" class="control-label form-label col-sm-4"></label>
+                        <input asp-for="CheckInDate" class="form-control form-control-sm" id="checkInDateInput" type="date" autocomplete="off" />
+                        <span asp-validation-for="CheckInDate" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group p-2">
+                        <label asp-for="CheckOutDate" class="control-label form-label col-sm-4"></label>
+                        <input asp-for="CheckOutDate" onchange="calculateTotalAmount('AmountInput')" class="form-control form-control-sm" id="checkOutDateInput" type="date" autocomplete="off" />
+                        <span asp-validation-for="CheckOutDate" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group p-2">
+                        <label asp-for="IdProofType" class="control-label form-label col-sm-4"></label>
+                        <select asp-for="IdProofType" id="idProofType" class="form-control form-control-sm">
+                            <option value="" disabled selected>Select Id Proof Type</option>
+                            <option value="AadharCard">Aadhar Card</option>
+                            <option value="VoterId">VoterId</option>
+                            <option value="DrivingLicense">Driving License</option>
+                        </select>
+                        <span asp-validation-for="IdProofType" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group p-2">
+                        <label asp-for="IdProofNumber" class="control-label form-label col-sm-4"></label>
+                        <input asp-for="IdProofNumber" class="form-control form-control-sm" autocomplete="off" />
+                        <span asp-validation-for="IdProofNumber" class="text-danger"></span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <input asp-for="HotelId" value="@Model.HotelId" class="form-control form-control-sm" type="hidden" autocomplete="off" />
+                        <input asp-for="HotelName" value="@Model.HotelName" class="form-control form-control-sm" type="hidden" autocomplete="off" />
+                        <input asp-for="HotelCoverImg" value="@Model.HotelCoverImg" class="form-control form-control-sm" type="hidden" autocomplete="off" />
+                        <input asp-for="RoomTypeNo" value="@Model.RoomTypeNo" class="form-control form-control-sm" type="hidden" autocomplete="off" />
+                        <input asp-for="RoomTypeString" value="@Model.RoomTypeString" class="form-control form-control-sm" type="hidden" autocomplete="off" />
+                        <input asp-for="RoomTypeImg" value="@Model.RoomTypeImg" class="form-control form-control-sm" type="hidden" autocomplete="off" />
+                        <input asp-for="UserEmail" value="@Model.UserEmail" class="form-control form-control-sm" type="hidden" autocomplete="off" />
+                    </div>
+
+                    <div class="form-group p-2 text-center">
+                        <label asp-for="RoomPrice" class="control-label form-label col-sm-4"></label>
+                        <input asp-for="RoomPrice" class="form-control form-control-sm" type="hidden" autocomplete="off" />
+                        <br />
+                        <span style="font-weight: bold;">@Model.RoomPrice (1 Room / Night)</span>
+                    </div>
+
+                    <div class="form-group p-2 text-center">
+                        <label asp-for="AmountPerNight" class="control-label form-label col-sm-4"></label>
+                        <input asp-for="AmountPerNight" id="AmountInput" class="form-control form-control-sm" type="hidden" autocomplete="off" />
+                        <br/>
+                        <span style="font-weight: bold;" id="bookingAmount">@Model.AmountPerNight</span>
+                    </div>
+
+                    <div class="form-group p-2 text-center">
+                        <label asp-for="TotalAmount" class="control-label form-label col-sm-4"></label>
+                        <input asp-for="TotalAmount" id="TotalAmountInput" class="form-control form-control-sm" type="hidden" autocomplete="off" />
+                        <br />
+                        <span style="font-weight: bold;" id="TotalbookingAmount">@Model.AmountPerNight</span>
+                    </div>
+                                       
+                    <div class="form-group p-2 pb-3 row justify-content-center align-items-center">
+                        <div class="col-sm-6 d-flex justify-content-center">
+                            <input type="submit" id="submitBtn" value="Book" class="btn btn-success" />
+                        </div>
+                        
+                    </div>
+
+                </form>
+                
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script type="text/javascript">
+
+    function checkNoOfGuests()
+    {
+        var guestsCount = document.getElementById("NoOfGuestsInput").value;
+        var guestsValidation = document.getElementById("noOfGuestsValidation");
+        var amountField = document.getElementById("bookingAmount");
+        var amountInput = document.getElementById("AmountInput");
+        var roomsInput = document.getElementById("NoOfRoomsInput");
+        var amount = @Model.AmountPerNight;
+        var rooms = @Model.NoOfRooms
+        var submitButton = document.getElementById("submitBtn");
+        //var maxGuests = @Model.maxGuests;
+        var roomsValidation = document.getElementById("noOfGuestsAllower");
+        
+        
+        var originalGuestCount = @Model.NoOfGuests;
+        
+        if ("@Model.RoomTypeString" == "Double Bed Ac" || "@Model.RoomTypeString" == "Double Bed Non Ac") {
+
+            amountField.innerHTML = (amount * roomsInput.value);
+            amountInput.value = (amount * roomsInput.value);
+            calculateTotalAmount("AmountInput");
+            roomsValidation.innerHTML = "(Max No. of Guest Allowed : " + (roomsInput.value * 3) + ")"
+
+        }
+        
+        else if ("@Model.RoomTypeString" == "Single Bed Ac" || "@Model.RoomTypeString" == "Single Bed Non Ac") {
+            
+            amountField.innerHTML = (amount * roomsInput.value);
+            amountInput.value = (amount * roomsInput.value);
+            calculateTotalAmount("AmountInput");
+            roomsValidation.innerHTML = "(Max No. of Guest Allowed : " + (roomsInput.value * 2) + ")"
+
+        }       
+        
+    }
+
+    function NoOfGuestsValidation(){
+        var guestsCount = document.getElementById("NoOfGuestsInput").value;
+        var roomsInput = document.getElementById("NoOfRoomsInput").value;
+        var submitButton = document.getElementById("submitBtn");
+        var roomsValidation = document.getElementById("noOfGuestsAllower");
+
+        if ("@Model.RoomTypeString" == "Double Bed Ac" || "@Model.RoomTypeString" == "Double Bed Non Ac") {
+        
+            if (guestsCount > (roomsInput * 3)) {
+                roomsValidation.style.visibility = "visible";
+                submitButton.disabled = true;
+            }
+            else {
+                submitButton.disabled = false;
+                roomsValidation.style.visibility = "hidden";
+            }
+        }
+
+        else if ("@Model.RoomTypeString" == "Single Bed Ac" || "@Model.RoomTypeString" == "Single Bed Non Ac") {
+        
+            if (guestsCount > (roomsInput * 2)) {
+                roomsValidation.style.visibility = "visible";
+                submitButton.disabled = true;
+            }
+            else {
+                submitButton.disabled = false;
+                roomsValidation.style.visibility = "hidden";
+            }
+            
+        }
+
+        
+
+    }
+
+    function calculateTotalAmount(perNightPriceFieldId){
+
+        var perNightPrice = document.getElementById(perNightPriceFieldId).value;
+        var totalAmountField = document.getElementById("TotalbookingAmount");
+        var totalAmountInput = document.getElementById("TotalAmountInput");
+
+        var checkInDate = new Date(document.getElementById("checkInDateInput").value);
+        var checkOutDate = new Date(document.getElementById("checkOutDateInput").value);
+
+        var Difference_In_Time = checkOutDate.getTime() - checkInDate.getTime();
+        var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+
+        totalAmountInput.value = (perNightPrice * Difference_In_Days)
+        totalAmountField.innerHTML = (perNightPrice * Difference_In_Days)
+    }
+
+</script>

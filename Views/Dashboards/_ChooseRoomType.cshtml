@@ -1,0 +1,99 @@
+﻿@model List<HotelsAvailable>
+
+<div id="choose_room" style="display:block">
+
+    <div class="container" >
+        <div class="row justify-content-center">
+            <div class="text-center">
+                <h4>Available Room Types</h4>
+                <hr />
+            </div>
+            
+            <div class="col-6" style="border-style: solid; border-radius: 10px;">
+
+                @foreach(var room in Model)
+                {
+    
+                    if(room.DoubleBedAc > 0)
+                    {
+                        <br />
+                        <div class="row">
+                            <div class="col-sm-6 d-flex justify-content-end">
+                                <img src="@room.DoubleBedAcImgUrl" width="100" height="75" />
+                            </div>
+                            <div class="col-sm-6">
+                                <span>Double Bed AC Room</span>
+                                <br/>
+                                <span>Price : @room.DoubleBedAcPrice</span>
+                                <br/>
+                                <button class="btn btn-success" onclick="location.href='@Url.Action("BookRoom", "Dashboards", new { roomType = "DoubleBedAc" , id = room.HotelId })'" id="DoubleBedAc">Book</button>
+                            </div>
+                        </div>
+                        <hr />
+        
+                    }
+                    if (room.SingleBedAc > 0)
+                    {
+                        <br />
+                        <div class="row">
+                            <div class="col-sm-6 d-flex justify-content-end">
+                                <img src="@room.SingleBedAcImgUrl" width="100" height="75" />
+                            </div>
+                            <div class="col-sm-6">
+                                <span>Single Bed AC Room</span>
+                                <br/>
+                                <span>Price : @room.SingleBedAcPrice</span>
+                                <br />
+                                <button class="btn btn-success" onclick="location.href='@Url.Action("BookRoom", "Dashboards", new { roomType = "SingleBedAc" , id = room.HotelId })'" id="SingleBedAc">Book</button>
+                            </div>
+                        </div>
+                        <hr />
+                    }
+                    if (room.DoubleBedNonAc > 0)
+                    {
+                        <br />
+                        <div class="row">
+                            <div class="col-sm-6 d-flex justify-content-end">
+                                <img src="@room.DoubleBedNonAcImgUrl" width="100" height="75" />
+                            </div>
+                            <div class="col-sm-6">
+                                <span>Double Bed Non AC Room</span>
+                                <br/>
+                                <span>Price : @room.DoubleBedNonAcPrice</span>
+                                <br />
+                                <button class="btn btn-success" onclick="location.href='@Url.Action("BookRoom", "Dashboards", new { roomType = "DoubleBedNonAc" , id = room.HotelId })'" id="DoubleBedNonAc">Book</button>
+                            </div>
+                        </div>
+                        <hr />
+                    }
+                    if (room.SingleBedNonAc > 0)
+                    {
+                        <br />
+                        <div class="row">
+                            <div class="col-sm-6 d-flex justify-content-end">
+                                <img src="@room.SingleBedNonAcImgUrl" width="100" height="75" />
+                            </div>
+                            <div class="col-sm-6">
+                                <span>Single Bed Non AC Room</span>
+                                <br/>
+                                <span>Price : @room.SingleBedNonAcPrice</span>
+                                <br/>
+                                <button class="btn btn-success" onclick="location.href='@Url.Action("BookRoom", "Dashboards", new { roomType = "SingleBedNonAc" , id = room.HotelId })'" id="SingleBedNonAc">Book</button>
+                            </div>
+                        </div>
+                        <hr />
+                    }
+
+                    <div class="row justify-content-center align-items-center">
+                        <div class="col-sm-6 d-flex justify-content-center pb-3">
+                            <button class="btn btn-outline-secondary" onclick="location.href='@Url.Action("UsersDashboard", "Dashboards")'">Back</button>
+                        </div>
+                    </div>
+
+                }
+            </div>
+        </div>
+    </div>
+
+</div>
+

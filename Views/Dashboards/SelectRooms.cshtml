@@ -1,0 +1,28 @@
+﻿@model List<HotelsAvailable>
+
+@{
+    ViewData["Title"] = "User Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-6"">
+        @foreach(var hotel in Model)
+        {
+            <div class="text-center align-items-center justify-content-center">
+                <img src="@hotel.CoverImgUrl" width="400" height="200" />
+                <h2>Hotel @hotel.HotelName</h2>
+            </div>
+            
+        }
+        </div>
+
+        <br/>
+
+        <div>
+            @Html.Partial("_ChooseRoomType", Model)
+        </div>
+    </div>
+</div>
+

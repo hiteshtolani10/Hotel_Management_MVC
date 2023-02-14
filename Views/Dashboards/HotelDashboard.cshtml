@@ -1,0 +1,49 @@
+﻿@model List<HotelBookings>
+@inject IHttpContextAccessor context
+
+
+<div class="text-center pb-5">
+    <h3>Hotel Dashboard</h3>
+</div>
+
+<table class="table" id="HotelDb">
+    <thead>
+        <tr>
+            <th>#No.</th>
+            <th>Guest Name</th>
+            <th>No. of Rooms</th>
+            <th>No. of Guests</th>
+            <th>Room Type</th>
+            <th>Id Proof Type</th>
+            <th>Id Proof No.</th>    
+            <th>Details</th>    
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            int i = 1;
+        }
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@i</td>
+                <td>@item.GuestName</td>
+                <td>@item.NoOfRooms</td>
+                <td>@item.NoOfGuests</td>
+                <td>@item.RoomType</td>
+                <td>@item.IdProofType</td>
+                <td>@item.IdProofNumber</td>
+                <td>
+                    <button type="button" class="btn btn-success">View</button>
+                </td>
+                
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#HotelDb').DataTable();
+    });
+</script>

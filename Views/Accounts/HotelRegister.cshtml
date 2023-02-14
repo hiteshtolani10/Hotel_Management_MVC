@@ -1,0 +1,246 @@
+﻿@model HotelRegister
+
+@{
+    ViewData["Title"] = "Register-Hotel";
+    Layout = "~/Views/Shared/_loginLayout.cshtml";
+}
+
+<div class="container MainContainer">
+    <div class="row MainRow justify-content-center pt-5">
+        <div class="col-lg-8 col-md-8 mx-auto MainCol shadow-lg p-3 mb-5 rounded">
+            <div class="text-center">
+                <h4>Register Your Hotel</h4>
+            </div>
+            <hr />
+            @if (!String.IsNullOrEmpty(ViewBag.AlreadyExist))
+            {
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <strong>Hang On!</strong> @ViewBag.AlreadyExist
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            }
+            <form asp-action="HotelRegister" enctype="multipart/form-data">
+                <div asp-validation-summary="All"></div>
+                <div class="form-group row m-4">
+                    <label asp-for="HotelName" class="control-label form-label col-sm-4"></label>
+                    <div class="col-sm-8">
+                        <input asp-for="HotelName" class="form-control form-control-sm" autocomplete="off" />
+                        <span asp-validation-for="HotelName" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row m-4">
+                    <label asp-for="Email" class="control-label form-label col-sm-4"></label>
+                    <div class="col-sm-8">
+                        <input asp-for="Email" class="form-control form-control-sm" autocomplete="off" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row m-4">
+                    <label asp-for="Password" class="control-label form-label col-sm-4"></label>
+                    <div class="col-sm-8">
+                        <input asp-for="Password" class="form-control form-control-sm" autocomplete="off" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group row m-4">
+                    <label asp-for="ConfirmPassword" class="control-label form-label col-sm-4"></label>
+                    <div class="col-sm-8">
+                        <input asp-for="ConfirmPassword" class="form-control form-control-sm" autocomplete="off" />
+                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                    </div>
+                </div>
+                @*cover image input*@
+                <div class="form-group row m-4">
+                    <label asp-for="CoverImage" class="control-label form-label col-sm-4"></label>
+                    <div class="col-sm-8">
+                        <input asp-for="CoverImage" class="form-control form-control-sm" autocomplete="off" />
+                        <span asp-validation-for="CoverImage" class="text-danger"></span>
+                    </div>
+                </div>
+
+                @*AC rooms section*@
+                <hr />
+                <div class="text-center">
+                    <span><strong>Enter Number of AC Rooms in Your Hotel</strong></span>
+                    <br />
+                    <span>Select One Image for Each of your Rooms</span>
+                </div>
+                
+                <div class="form-group row m-4">
+
+                    @*single bed section*@
+                    <div class="row pb-4">
+                        <div class="col-sm-3">
+                            <label asp-for="SingleBedAc" class="control-label form-label"></label>
+                            <input asp-for="SingleBedAc" class="form-control form-control-sm"
+                                   onchange="ED_SingleBedAc()" autocomplete="off" min="0" id="SingleBedAc" value="0" />
+                            <span asp-validation-for="SingleBedAc" class="text-danger"></span>
+                        </div>
+
+                        @*Update this with Price*@
+                        <div class="col-sm-3">
+                            <label asp-for="SingleBedAcPrice" class="control-label form-label"></label>
+                            <input asp-for="SingleBedAcPrice" class="form-control form-control-sm" autocomplete="off"
+                                   type="number" min="0" value="0" />
+                            <span asp-validation-for="SingleBedAcPrice" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <label asp-for="SingleBedAcImg" class="control-label form-label"></label>
+                            <input asp-for="SingleBedAcImg" class="form-control form-control-sm"
+                                  accept=".png, .jpg, .jpeg" autocomplete="off" id="SingleBedAcImg" disabled />
+                            <span asp-validation-for="SingleBedAcImg" class="text-danger"></span>
+                        </div>
+                        
+                    </div>
+
+                    @*Double Bed Section*@
+                    <div class="row pb-4">
+                        <div class="col-sm-3">
+                            <label asp-for="DoubleBedAc" class="control-label form-label"></label>
+                            <input asp-for="DoubleBedAc" class="form-control form-control-sm"
+                                   onchange="ED_DoubleBedAc()" autocomplete="off" min="0" id="DoubleBedAc" value="0" />
+                            <span asp-validation-for="DoubleBedAc" class="text-danger"></span>
+                        </div>
+
+                        @*Update this with price*@
+                        <div class="col-sm-3">
+                            <label asp-for="DoubleBedAcPrice" class="control-label form-label"></label>
+                            <input asp-for="DoubleBedAcPrice" class="form-control form-control-sm" autocomplete="off"
+                                   type="number" min="0" value="0" />
+                            <span asp-validation-for="DoubleBedAcPrice" class="text-danger"></span>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <label asp-for="DoubleBedAcImg" class="control-label form-label"></label>
+                            <input asp-for="DoubleBedAcImg" class="form-control form-control-sm"
+                                   accept="image/png, image/jpeg" autocomplete="off" id="DoubleBedAcImg" disabled />
+                            <span asp-validation-for="DoubleBedAcImg" class="text-danger"></span>
+                        </div>
+
+                    </div>
+                </div>
+
+                @*Non-AC rooms section*@
+                <hr />
+                <div class="text-center">
+                    <span><strong>Enter Number of Non-AC Rooms in Your Hotel</strong></span>
+                    <br />
+                    <span>Select One Image for Each of your Rooms</span>
+                </div>
+                <div class="form-group row m-4">
+
+                    @*single bed section*@
+                    <div class="row pb-4">
+                        <div class="col-sm-3">
+                            <label asp-for="SingleBedNonAc" class="control-label form-label"></label>
+                            <input asp-for="SingleBedNonAc" class="form-control form-control-sm"
+                                   onchange="ED_SingleBedNonAc()" autocomplete="off" min="0" id="SingleBedNonAc" value="0" />
+                            <span asp-validation-for="SingleBedNonAc" class="text-danger"></span>
+                        </div>
+
+                        @*Update this with price*@
+                        <div class="col-sm-3">
+                            <label asp-for="SingleBedNonAcPrice" class="control-label form-label"></label>
+                            <input asp-for="SingleBedNonAcPrice" class="form-control form-control-sm" autocomplete="off"
+                                   type="number" min="0" value="0" />
+                            <span asp-validation-for="SingleBedNonAcPrice" class="text-danger"></span>
+                        </div>
+                        <div class="col-sm-6">
+                            <label asp-for="SingleBedNonAcImg" class="control-label form-label"></label>
+                            <input asp-for="SingleBedNonAcImg" class="form-control form-control-sm"
+                                   accept="image/png, image/jpeg" autocomplete="off" id="SingleBedNonAcImg" disabled />
+                            <span asp-validation-for="SingleBedNonAcImg" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    @*Double bed section*@
+                    <div class="row pb-4">
+                        <div class="col-sm-3">
+                            <label asp-for="DoubleBedNonAc" class="control-label form-label"></label>
+                            <input asp-for="DoubleBedNonAc" class="form-control form-control-sm"
+                                   onchange="ED_DoubleBedNonAc()" autocomplete="off" min="0" id="DoubleBedNonAc" value="0" />
+                            <span asp-validation-for="DoubleBedNonAc" class="text-danger"></span>
+                        </div>
+
+                        @*update with price*@
+                        <div class="col-sm-3">
+                            <label asp-for="DoubleBedNonAcPrice" class="control-label form-label"></label>
+                            <input asp-for="DoubleBedNonAcPrice" class="form-control form-control-sm" autocomplete="off"
+                                   type="number" min="0" value="0" />
+                            <span asp-validation-for="DoubleBedNonAcPrice" class="text-danger"></span>
+                        </div>
+                        <div class="col-sm-6">
+                            <label asp-for="DoubleBedNonAcImg" class="control-label form-label"></label>
+                            <input asp-for="DoubleBedNonAcImg" class="form-control form-control-sm"
+                                   accept="image/png, image/jpeg" autocomplete="off" id="DoubleBedNonAcImg" disabled />
+                            <span asp-validation-for="DoubleBedNonAcImg" class="text-danger"></span>
+                        </div>
+                    </div>
+                 
+                </div>
+
+                <br/>
+                <div class="col-md-6 mx-auto text-center">
+                    <div class="form-group row">
+                        <div class="col-md-6">
+                            <input type="submit" value="Register" class="btn btn-success" />
+                        </div>
+                        <div class="col-md-6">
+                            <a href="/Accounts/HotelLogin" class="btn btn-primary">Login?</a>
+                        </div>
+                    </div>
+                </div>
+                <br/>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function ED_SingleBedAc() {
+        var SingleBedAcInput = document.getElementById("SingleBedAc");
+        var SingleBedAcImgInput = document.getElementById("SingleBedAcImg");
+
+        if (SingleBedAcInput.value > 0) {
+            SingleBedAcImgInput.disabled = false;
+        } else {
+            SingleBedAcImgInput.disabled = true;
+        }
+    };
+
+    function ED_DoubleBedAc() {
+        var DoubleBedAcInput = document.getElementById("DoubleBedAc");
+        var DoubleBedAcImgInput = document.getElementById("DoubleBedAcImg");
+
+        if (DoubleBedAcInput.value > 0) {
+            DoubleBedAcImgInput.disabled = false;
+        } else {
+            DoubleBedAcImgInput.disabled = true;
+        }
+    };
+
+    function ED_SingleBedNonAc() {
+        var SingleBedNonAcInput = document.getElementById("SingleBedNonAc");
+        var SingleBedNonAcImgInput = document.getElementById("SingleBedNonAcImg");
+
+        if (SingleBedNonAcInput.value > 0) {
+            SingleBedNonAcImgInput.disabled = false;
+        } else {
+            SingleBedNonAcImgInput.disabled = true;
+        }
+    };
+
+    function ED_DoubleBedNonAc() {
+        var DoubleBedNonAcInput = document.getElementById("DoubleBedNonAc");
+        var DoubleBedNonAcImgInput = document.getElementById("DoubleBedNonAcImg");
+
+        if (DoubleBedNonAcInput.value > 0) {
+            DoubleBedNonAcImgInput.disabled = false;
+        } else {
+            DoubleBedNonAcImgInput.disabled = true;
+        }
+    };
+</script>

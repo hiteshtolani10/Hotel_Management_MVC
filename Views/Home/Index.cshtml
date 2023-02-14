@@ -1,0 +1,69 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_loginLayout.cshtml";
+}
+<style>
+
+    .card{
+        width: 830px;
+        height: 200px;
+    }
+
+    .login_col {
+        text-align: center;
+        display: flex;
+    }
+</style>
+
+
+<div class="container "> 
+    <div class="row p-3 text-center">
+        <h1>INFINITE Hotels</h1>
+        <br />
+        <br />
+        <h3>Welcome, Please Select What you want to do</h3>
+        <div class="col-sm login_col justify-content-center pt-4">
+            <div class="row">
+                <div class="col-sm">
+                    <div class="card" style="width: 18rem;">
+                        <div class="card-body">
+                            <h5 class="card-title">Book a Room</h5>
+                            <p class="card-text">Want to Book a stay at Hotel? Login/Register to find Hotels near you.</p>
+                        </div>
+                        <div class="card-footer text-muted">
+                            <a href="/Accounts/UserLogin" class="btn btn-primary">User Login</a>
+                        </div>
+                    </div>
+                </div>
+
+                 <div class="col-sm">
+                    <div class="card" style="width: 18rem;">
+                        <div class="card-body">
+                            <h5 class="card-title">Manage Your Hotel</h5>
+                            <p class="card-text">Want to Add your Hotel? Login/Register to your Hotel.</p>
+                        </div>
+                        <div class="card-footer text-muted">
+                            <a href="/Accounts/HotelLogin" class="btn btn-primary">Hotel Login</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row p-3">
+        <div class="col-sm login_col justify-content-center">
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">Admin?</h5>
+                    <p class="card-text">Login to manage Hotels.</p>
+                </div>
+                <div class="card-footer text-muted">
+                    <a href="/Accounts/AdminLogin" class="btn btn-primary">Admin Login</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

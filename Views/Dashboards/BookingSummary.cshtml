@@ -1,0 +1,69 @@
+﻿@model BookingDetails
+
+<div class="container MainContainer">
+    <div class="row MainRow justify-content-center pt-5">
+        <div class="col-lg-6 col-md-8 mx-auto MainCol shadow-lg p-3 mb-5 rounded text-center">
+            <h4>Booking Summary</h4>
+            <hr />
+
+            <span>
+                Name : @Model.Name
+            </span>
+            <br />
+
+            <span>
+                Hotel Name : @Model.HotelName
+            </span>
+            <br />
+
+            <span>
+                No. Of Guests : @Model.NoOfGuests
+            </span>
+            <br />
+
+            <span>
+                Check In Date : @Model.CheckInDate
+            </span>
+            <br />
+
+            <span>
+                Check Out Date : @Model.CheckOutDate
+            </span>
+            <br />
+
+            <span>
+                Room Type : @Model.RoomTypeString
+            </span>
+            <br />
+
+            <span>
+                No. Of Rooms : @Model.NoOfRooms
+            </span>
+            <br />
+
+            <span>
+                Room Price : @Model.RoomPrice
+            </span>
+            <br />
+
+            <span>
+                Per Night Charge (Room Price x No. Of Rooms) : @Model.AmountPerNight
+            </span>
+            <br />
+
+            <span>
+                Total Bill (Per Night Charge x No. Of Days Stay) : @Model.TotalAmount
+            </span>
+            <br />
+
+            <span>
+                Id Proof : @Model.IdProofType
+            </span>
+            <br />
+
+            <div class="pt-4">
+                <a href="@Url.Action("UserBookingsTab", "Dashboards", new { email = Model.UserEmail})" class="btn btn-primary">Dashboard</a>
+            </div>
+        </div>
+    </div>
+</div>

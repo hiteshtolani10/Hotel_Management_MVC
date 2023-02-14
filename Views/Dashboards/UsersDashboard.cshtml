@@ -1,0 +1,69 @@
+﻿@model List<HotelsAvailable>
+@inject IHttpContextAccessor context
+
+@{
+    ViewData["Title"] = "User Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container MainContainer">
+
+    <div class="text-center">
+        <h3>Welcome to Infinite Hotels</h3>
+        <h4>Choose your Stay as per your Need</h4>
+    </div>
+
+    <div class="row MainRow justify-content-center pt-5">
+
+        @foreach(var hotel in Model)
+        {
+            <div class="col-lg-4 mx-auto text-center mb-3">
+                <div class="col-lg-12 mx-auto text-center MainCol shadow-lg rounded">
+                    <div class="card">
+                      <img class="card-img-top" src="@hotel.CoverImgUrl" alt="Card image cap">
+                      <div class="card-body">
+                        <h4>@hotel.HotelName</h4>
+                            @if (hotel.SingleBedAc > 0 || hotel.DoubleBedAc > 0)
+                            {
+                                @if (!string.IsNullOrEmpty(@hotel.SingleBedAcPrice.ToString()) && Convert.ToInt32(@hotel.SingleBedAcPrice) > 0)
+                                {
+                                    <span>AC Rooms starting at Rs : @hotel.SingleBedAcPrice </span>
+                                }
+                                else
+                                {
+                                    <span>AC Rooms starting at Rs : @hotel.DoubleBedAcPrice </span>
+                                }
+                            }
+                            <br />
+                            @if (hotel.SingleBedNonAc > 0 || hotel.DoubleBedNonAc > 0)
+                            {
+                                @if (!string.IsNullOrEmpty(@hotel.SingleBedNonAcPrice.ToString()) && Convert.ToInt32(@hotel.SingleBedNonAcPrice) > 0)
+                                {
+                                    <span>Non-AC Rooms starting at Rs : @hotel.SingleBedNonAcPrice </span>
+                                }
+                                else
+                                {
+                                    <span>Non-AC Rooms starting at Rs : @hotel.DoubleBedNonAcPrice </span>
+                                }
+                            }
+                            <br />
+                            <br />
+                            <span><a asp-controller="Dashboards" asp-action="SelectRooms" asp-route-id="@hotel.HotelId">View</a></span>
+                      </div>
+                    </div>
+
+                </div>
+            </div>
+        }
+
+    </div>
+    @*<div class="row justify-content-center align-items-center">
+        <div class="col-sm-12 mx-auto">
+            <a href="@Url.Action("UserBookingsTab", "Dashboards", new { email = @context.HttpContext.Session.GetString("UserEmail")})">Bookings Tab</a>
+        </div>
+        
+    </div>*@
+</div>
+
+

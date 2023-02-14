@@ -1,0 +1,115 @@
+﻿@model dynamic
+
+    <div class="text-center p-2">
+        <h3>Admin Dashboard</h3>
+    </div>
+    </br>
+
+<h4>Hotel Requests</h4>
+<hr/>
+<table class="table" id="HotelReq">
+  <thead>
+    <tr>
+      <th>Hotel Name</th>
+      <th>Email</th>
+      <th>Single-Bed AC Rooms</th>
+      <th>Double-Bed AC Rooms</th>
+      <th>Single-Bed Non-AC Rooms</th>
+      <th>Double-Bed Non-AC Rooms</th>
+      <th>Suits</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+        @foreach (var item in Model.HotelDetail)
+        {
+            <tr>
+                <td>@item.HotelName</td>
+                <td>@item.Email</td>
+                <td>@item.SingleBedAc</td>
+                <td>@item.DoubleBedAc</td>
+                <td>@item.SingleBedNonAc</td>
+                <td>@item.DoubleBedNonAc</td>
+                <td>@item.MaharajaSuite</td>
+                @if (item.EmailVerified == true)
+                {
+                    <td>
+                        <button type="button" class="btn btn-warning"
+                        data-bs-toggle="modal" data-bs-target="#deleteModal" asp-route-id="@item.Id">
+                            Edit
+                        </button>
+                    </td>
+
+                    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">@item.HotelName</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    Select What you want to do
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-warning">Edit</button>
+                                    <button type="button" class="btn btn-danger" asp-controller="Dashboards" asp-action="DeleteHotel" asp-route-id="@item.Id">Delete</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <td>
+                        <a type="button" class="btn btn-success" asp-controller="Dashboards" asp-action="GrantHotelAccess" asp-route-id="@item.Id">Accept</a>
+                    </td>
+                }
+                
+            </tr>
+        }
+  </tbody>
+</table>
+
+</br>
+</br>
+</br>
+
+<h4>User Details</h4>
+<hr />
+<table class="table" id="usersTab">
+    <thead>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Joining Date & Time</th>
+            <th>Details</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.UserDetails)
+        {
+            <tr>
+                <td>@item.FirstName</td>
+                <td>@item.LastName</td>
+                <td>@item.Email</td>
+                <td>@item.CreationDate</td>
+                <td>
+                    <button type="button" class="btn btn-success">Details</button>
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+
+@*<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.js"></script> *@
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $('#HotelReq').DataTable();
+        $('#usersTab').DataTable();
+    });
+</script>

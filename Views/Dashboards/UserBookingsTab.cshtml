@@ -1,0 +1,38 @@
+﻿@model List<BookingDetails>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">Hotel Name</th>
+      <th scope="col">No. Of Guests</th>
+      <th scope="col">Check In Date</th>
+      <th scope="col">Check Out Date</th>
+      <th scope="col">Room Type</th>
+      <th scope="col">No. Of Rooms</th>
+      <th scope="col">Room Price</th>
+      <th scope="col">Per Night Charge</th>
+      <th scope="col">Total Bill</th>
+      <th scope="col">Id Proof</th>
+    </tr>
+  </thead>
+  <tbody>
+      @foreach(var item in Model)
+        {
+            <tr>
+                <td>@item.Name</td>
+                <td>@item.HotelName</td>
+                <td>@item.NoOfGuests</td>
+                <td>@item.CheckInDate</td>
+                <td>@item.CheckOutDate</td>
+                <td>@item.RoomTypeString</td>
+                <td>@item.NoOfRooms</td>
+                <td>@item.RoomPrice</td>
+                <td>@item.AmountPerNight</td>
+                <td>@item.TotalAmount</td>
+                <td>@item.IdProofType</td>
+            </tr>
+        }
+   
+  </tbody>
+</table>
